@@ -32,7 +32,7 @@ include("layers/conv.jl")
 include("layers/recurrent.jl")
 include("layers/normalisation.jl")
 
-include("data/Data.jl")
+# include("data/Data.jl")
 
 include("jit/JIT.jl")
 
