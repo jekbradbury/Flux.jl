@@ -4,7 +4,7 @@ module Flux
 
 # Zero Flux Given
 
-using Juno, Requires, Reexport
+using Requires, Reexport
 using MacroTools: @forward
 
 export Chain, Dense, RNN, LSTM, GRU, Conv2D,
@@ -14,14 +14,26 @@ export Chain, Dense, RNN, LSTM, GRU, Conv2D,
 
 @reexport using NNlib
 
-include("tracker/Tracker.jl")
-using .Tracker
-export Tracker
-import .Tracker: data
+# include("tracker/Tracker.jl")
+# using .Tracker
+# export Tracker
+# import .Tracker: data
+
+module Tracker
+param(x) = x
+data(x) = x
+function back! end
+abstract type TrackedArray{T,N} end
+TrackedVector{T} = TrackedArray{T,1}
+TrackedMatrix{T} = TrackedArray{T,2}
+end
+
+import .Tracker: param, TrackedArray, TrackedMatrix, TrackedVector
 
 include("optimise/Optimise.jl")
 using .Optimise
 
+include("oset.jl")
 include("utils.jl")
 include("onehot.jl")
 include("treelike.jl")
@@ -34,7 +46,7 @@ include("layers/normalisation.jl")
 
 # include("data/Data.jl")
 
-include("jit/JIT.jl")
+# include("jit/JIT.jl")
 
 @require CuArrays include("cuda/cuda.jl")
 
